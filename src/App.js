@@ -36,7 +36,7 @@ class Sumit extends React.Component {
            <div className="inputdiv">
            <input type="text" id="type" placeholder="Add a item"  onChange={this.handleChange} value={this.state.text}/>
            <button id="click" onClick={this.handleAdd}> + </button><br/>
-           <p>h</p>
+           
           {
           data.map((item)=>{
             return <>
