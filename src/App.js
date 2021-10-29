@@ -1,39 +1,51 @@
 //import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-
-class Sumit extends React.Component {
+import Input from './component/Input.js';
+import Para from './component/Heading.js';
+class App extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state={data:[], get:'',key:""}
-    
+    this.state={data:[],edit:false, get:''} 
   };
+  
+
   handleChange=(e) => {
-    const sumit=e.target.value
-    
-    this.setState({get:sumit})
+    const xyz=e.target.value
+    this.setState({get:xyz})
   };
+
   handleAdd=()=>{
-    //const abc=this.state
    if(this.state.get!==''){
-      this.setState({data:[...this.state.data,this.state.get]})
-      this.setState({text:""})
+      this.setState({data:[...this.state.data,{todo:this.state.get}]})
       this.setState({get:''})
+    }  
+  }
+
+  deleteitem =(index)=>{
+    //console.log(index)
+    return(
+     this.setState( {data:this.state.data.filter((item,i) => {
+        return index !== i})
+      }) )
     }
-   
-  }
-  deleteitem(key){
-    const filteritems=this.state.data.filter(data=>
-      data.key!==key);
-      console.log(key);
-      this.setState({data:filteritems})
-  }
+  
+  checked=(e) => {
+      
+    const cb = this.state("check");
+    
+     if(cb.checked==true){
+        Text.display ="block";
+        }else{
+          Text.display ="none";
+        }
+   }
   
   
   render(){
    const data=this.state.data;
-   
+   console.log(this.state);
  return (
     <div className="main_div">
        <div className="center_div">
@@ -42,16 +54,19 @@ class Sumit extends React.Component {
            <br/>
            <div className="inputdiv">
            <input type="text" id="type" placeholder="Add a item"  onChange={this.handleChange}
-            value={this.state.data.text}/>
+            value={this.state.get} />
            <button id="click" onClick={this.handleAdd}> + </button><br/>
           {
-          data.map((item)=>{
+          data.map((item,index)=>{
             return <>
+            <Input/>,
+            <Para Number="first"/>
             <div className ="div">
             <ul>
-            <input type="checkbox" id="check" style={{width:"30px", height:"auto"}}complete/>
-            <span>{item}</span>
-            <button id="secondclick" onclick={this.deleteitem}>x</button>
+            <input type="checkbox" id="check" style={{width:"30px", height:"auto"}} onClick={this.checked}/>
+            <span>{item.todo}</span>
+            <button id="secondclick" onClick={()=>this.deleteitem(index)}>x</button>
+            <button id ="edit" onClick={()=>this.editItem(index)}>EDIT</button>
             <br/>
             </ul>
             </div>
@@ -68,4 +83,4 @@ class Sumit extends React.Component {
  }
 }
 
-export default Sumit;
+export default App;
