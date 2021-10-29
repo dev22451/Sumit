@@ -7,19 +7,19 @@ class App extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state={data:[],edit:false, get:''} 
+    this.state={data:[], getdata:'', ischecked:false} 
   };
   
 
   handleChange=(e) => {
-    const xyz=e.target.value
-    this.setState({get:xyz})
+    const demo=e.target.value
+    this.setState({getdata:demo})
   };
 
   handleAdd=()=>{
-   if(this.state.get!==''){
-      this.setState({data:[...this.state.data,{todo:this.state.get}]})
-      this.setState({get:''})
+   if(this.state.getdata!==''){
+      this.setState({data:[...this.state.data,{todo:this.state.getdata}]})
+      this.setState({getdata:''})
     }  
   }
 
@@ -30,22 +30,18 @@ class App extends React.Component {
         return index !== i})
       }) )
     }
-  
-  checked=(e) => {
-      
-    const cb = this.state("check");
-    
-     if(cb.checked==true){
-        Text.display ="block";
-        }else{
-          Text.display ="none";
-        }
+    onCheck=()=>{
+      this.setState({ischecked:true})
+    }
+  check=(e) => {
+      this.setState({ischecked:e.target.checked}) 
    }
   
-  
+
   render(){
    const data=this.state.data;
    console.log(this.state);
+   const handlecheck=(index)=>this.onCheck(index)
  return (
     <div className="main_div">
        <div className="center_div">
@@ -54,18 +50,20 @@ class App extends React.Component {
            <br/>
            <div className="inputdiv">
            <input type="text" id="type" placeholder="Add a item"  onChange={this.handleChange}
-            value={this.state.get} />
+            value={this.state.getdata} />
            <button id="click" onClick={this.handleAdd}> + </button><br/>
           {
           data.map((item,index)=>{
-            return <>
-            <Input/>,
-            <Para Number="first"/>
+            return <> 
             <div className ="div">
             <ul>
-            <input type="checkbox" id="check" style={{width:"30px", height:"auto"}} onClick={this.checked}/>
+            <input type="checkbox" id="check" style={{width:"30px", height:"auto"}} onChange={this.check} onClick={this.handlecheck} checked={this.state.ischecked}/>
+            <br/>
             <span>{item.todo}</span>
-            <button id="secondclick" onClick={()=>this.deleteitem(index)}>x</button>
+            <Input 
+            handledelete={this.deleteitem}
+            editIndex={index}/>
+             {(this.state.ischecked)?<span><button>complete</button></span>:null}
             <button id ="edit" onClick={()=>this.editItem(index)}>EDIT</button>
             <br/>
             </ul>
